@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EstoesSpam</title>
+  <meta name="description" content="EstoesSpam — Nosotros vamos a parar, mirar y entender qué hay detrás de las tendencias, tecnologías y fenómenos de internet.">
+  <meta name="keywords" content="EstoesSpam">
+  <meta property="og:title" content="EstoesSpam">
+  <meta property="og:site_name" content="EstoesSpam">
+  <meta name="application-name" content="EstoesSpam">
+  <meta name="apple-mobile-web-app-title" content="EstoesSpam">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- 1. BARRA SUPERIOR DE SERVICIO -->
+  <aside class="top-bar" aria-label="Información de servicio">
+    <div class="container">
+      <div class="top-bar__tagline">
+        <span id="live-date">Edición digital</span> &bull; <em>“Parar, mirar y entender qué hay detrás”</em>
+      </div>
+      <div class="top-bar__networks">
+        <span>Canales oficiales:</span>
+        <a href="https://www.youtube.com/@EstoesSpam" target="_blank" rel="noopener noreferrer" class="top-bar__link">YouTube: @EstoesSpam</a>
+        <a href="https://www.instagram.com/spam_streaming" target="_blank" rel="noopener noreferrer" class="top-bar__link">Instagram: @spam_streaming</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. CABECERA PRINCIPAL -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand-wrapper">
+        <a href="index.html" aria-label="Ir a la portada de SPAM">
+          <img src="img/logo-spam.png" alt="Logotipo de SPAM" class="brand-logo">
+        </a>
+        <p class="brand-description">
+          Explicamos los fenómenos, tecnologías y debates digitales desde una mirada periodística y crítica.
+        </p>
+      </div>
+
+      <!-- Botón móvil -->
+      <button class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menú de navegación">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. NAVEGACIÓN PRINCIPAL -->
+  <nav class="main-nav" id="menu-principal" aria-label="Navegación principal de secciones">
+    <div class="container">
+      <ul class="main-nav__list">
+        <li class="main-nav__item"><a href="index.html" class="main-nav__link is-active">Inicio</a></li>
+        <li class="main-nav__item"><a href="secciones/detras-de-lo-viral.html" class="main-nav__link">Detrás de lo viral</a></li>
+        <li class="main-nav__item"><a href="secciones/lore-semanal.html" class="main-nav__link">Lore semanal</a></li>
+        <li class="main-nav__item"><a href="secciones/spam-update.html" class="main-nav__link">Spam Update</a></li>
+        <li class="main-nav__item"><a href="secciones/fuera-de-juego.html" class="main-nav__link">Fuera de juego</a></li>
+        <li class="main-nav__item"><a href="quienes-somos.html" class="main-nav__link">Quiénes somos</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 4. CONTENIDO PRINCIPAL DE LA PORTADA -->
+  <main id="contenido-principal" class="container">
+
+    <!-- BANNER DE BIENVENIDA: EQUIPO SPAM STREAMING -->
+    <section class="team-hero-banner" aria-label="El equipo de SPAM Streaming">
+      <div class="team-banner-card" style="background: linear-gradient(135deg, #181818 0%, #242424 100%); border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 2rem;">
+        <span class="category-badge category-badge--dark" style="margin-bottom: 8px;">Equipo EstoesSpam</span>
+        <h2 style="color: #fff; font-size: 1.5rem; font-weight: 900; margin: 6px 0 8px;">“Nosotros vamos a parar, mirar y entender qué hay detrás”</h2>
+        <p style="color: var(--color-muted); font-size: 0.95rem; max-width: 650px; margin: 0 auto 1.25rem;">
+          Periodismo sobre cultura digital, tendencias y música realizado por estudiantes universitarios. Hacé clic en cualquiera de nosotros para ver su perfil y sus notas:
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;">
+          <a href="quienes-somos.html" style="text-decoration: none; text-align: center;" title="Ver perfil de Valentina Colucci">
+            <img src="img/valentina-colucci.jpeg" alt="Valentina Colucci" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-yellow); display: block; margin: 0 auto 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <span style="color: #fff; font-size: 0.82rem; font-weight: 700; display: block;">Valentina</span>
+          </a>
+          <a href="quienes-somos.html" style="text-decoration: none; text-align: center;" title="Ver perfil de Aymara Pereyra">
+            <img src="img/aymara-pereyra.jpeg" alt="Aymara Pereyra" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-yellow); display: block; margin: 0 auto 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <span style="color: #fff; font-size: 0.82rem; font-weight: 700; display: block;">Aymara</span>
+          </a>
+          <a href="quienes-somos.html" style="text-decoration: none; text-align: center;" title="Ver perfil de Pilar Teres">
+            <img src="img/pilar-teres.jpeg" alt="Pilar Teres" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-yellow); display: block; margin: 0 auto 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <span style="color: #fff; font-size: 0.82rem; font-weight: 700; display: block;">Pilar</span>
+          </a>
+          <a href="quienes-somos.html" style="text-decoration: none; text-align: center;" title="Ver perfil de Delfina Galván">
+            <img src="img/delfina-galvan.jpeg" alt="Delfina Galván" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-yellow); display: block; margin: 0 auto 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <span style="color: #fff; font-size: 0.82rem; font-weight: 700; display: block;">Delfina</span>
+          </a>
+          <a href="quienes-somos.html" style="text-decoration: none; text-align: center;" title="Ver perfil de Agustín Sánchez">
+            <img src="img/agustin-sanchez.jpeg" alt="Agustín Sánchez" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--color-yellow); display: block; margin: 0 auto 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            <span style="color: #fff; font-size: 0.82rem; font-weight: 700; display: block;">Agustín</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN A: APERTURA PERIODÍSTICA (HISTORIA PRINCIPAL + SECUNDARIAS) -->
+    <section class="home-section" aria-label="Apertura de edición">
+      <div class="lead-grid">
+        
+        <!-- Noticia principal de portada (Apertura elegida: Airbag) -->
+        <article class="card-lead">
+          <div class="card-lead__media">
+            <a href="notas/como-airbag-desafio-los-prejuicios.html" aria-label="Leer nota: Cómo Airbag desafió los prejuicios del rock argentino">
+              <img src="img/cómo-Airbag-desafió-los-prejuicios.png" alt="Airbag llenando el estadio River Plate" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </a>
+          </div>
+
+          <div class="card-lead__content">
+            <span class="category-badge">Lore Semanal // Portada</span>
+            <h1 class="card-lead__title">
+              <a href="notas/como-airbag-desafio-los-prejuicios.html">De banda adolescente a llenar River: cómo Airbag desafió los prejuicios del rock argentino</a>
+            </h1>
+            <p class="card-lead__lead">
+              Lo que comenzó como un proyecto musical de tres hermanos de Don Torcuato terminó convertido en un fenómeno capaz de convocar multitudes en el Monumental. En el camino, Airbag atravesó cambios sonoros, construyó una identidad propia y abrió un debate: ¿quién decide qué artistas merecen ser considerados parte del rock?
+            </p>
+            <div class="article-meta">
+              <span>Por <span class="article-meta__author">Valentina Colucci</span></span>
+              <span class="article-meta__divider">&bull;</span>
+              <time datetime="2026-10-12">12 de Octubre de 2026</time>
+              <span class="article-meta__divider">&bull;</span>
+              <span>5 min de lectura</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Columna de historias secundarias destacadas -->
+        <aside class="secondary-column" aria-label="Otras historias destacadas">
+          
+          <article class="card-secondary">
+            <span class="category-badge">Detrás de lo viral</span>
+            <h2 class="card-secondary__title">
+              <a href="notas/11-de-septiembre.html">El 11-S en la era del like: el día que las Torres Gemelas volvieron a aparecer en pantalla</a>
+            </h2>
+            <p class="card-secondary__excerpt">
+              A 25 años del atentado, una impactante instalación de drones revivió los rascacielos en Nueva York. Entre el homenaje emotivo y la acusación de banalizar la tragedia en TikTok: ¿dónde termina la memoria y empieza el espectáculo?
+            </p>
+            <div class="article-meta">
+              <span>Por <span class="article-meta__author">Aymará Pereyra</span></span>
+              <span class="article-meta__divider">&bull;</span>
+              <time datetime="2026-10-15">15 de Octubre de 2026</time>
+            </div>
+          </article>
+
+          <article class="card-secondary">
+            <span class="category-badge">Spam Update</span>
+            <h2 class="card-secondary__title">
+              <a href="notas/mago-ia-de-mercado-pago.html">Mago, la IA que quiere convertir a Mercado Pago en un asistente personal</a>
+            </h2>
+            <p class="card-secondary__excerpt">
+              El asistente de IA sumó más de 100 funciones para organizar gastos, pagar la tarjeta y detectar estafas en una sola conversación. ¿Cuánto dinero estamos dispuestos a delegar en un algoritmo?
+            </p>
+            <div class="article-meta">
+              <span>Por <span class="article-meta__author">Pilar Teres</span></span>
+              <span class="article-meta__divider">&bull;</span>
+              <time datetime="2026-10-15">15 de Octubre de 2026</time>
+            </div>
+          </article>
+
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- SECCIÓN B: ESPACIO AUDIOVISUAL Y STREAMING (PODCAST) -->
+    <section class="multimedia-block" aria-label="Producción audiovisual y podcast">
+      <div class="container">
+        <header class="multimedia-block__header">
+          <span class="multimedia-block__tag">Stream & Podcast</span>
+          <h2 class="multimedia-block__title">SPAM EN VIVO // PROGRAMA ESPECIAL</h2>
+        </header>
+
+        <div class="multimedia-block__grid">
+          <!-- Portada del Programa #10 -->
+          <div class="stream-poster-wrapper">
+            <a href="https://www.youtube.com/@EstoesSpam" target="_blank" rel="noopener noreferrer" style="position: relative; display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16/9; box-shadow: 0 8px 24px rgba(0,0,0,0.5); border: 2px solid rgba(255, 205, 0, 0.3);" title="Ver Programa #10 en YouTube">
+              <img src="img/programa-10.jpg" alt="SPAM Streaming - Programa #10" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;">
+              <span style="position: absolute; bottom: 12px; left: 12px; background: var(--color-yellow); color: var(--color-black); font-weight: 900; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                &#9654; Ver Programa #10
+              </span>
+            </a>
+          </div>
+
+          <div class="multimedia-info">
+            <span class="category-badge category-badge--dark">YouTube en vivo // Último Programa</span>
+            <h3 class="multimedia-info__headline">Programa #10: ¿Por qué no podemos dejar de scrollear?</h3>
+            <p class="multimedia-info__desc">
+              El equipo de SPAM analiza en vivo los fenómenos de la semana: cómo Airbag llenó River desafiando los prejuicios del rock, la memoria del 11-S procesada en videos de 15 segundos y las nuevas funciones de inteligencia artificial en billeteras virtuales.
+            </p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 1.25rem;">
+              <a href="https://www.youtube.com/@EstoesSpam" target="_blank" rel="noopener noreferrer" class="btn-media" style="background: #FF0000; color: #fff; border-color: #FF0000; font-weight: 800; display: inline-flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                Ver Programa #10 en YouTube
+              </a>
+              <a href="https://www.instagram.com/spam_streaming" target="_blank" rel="noopener noreferrer" class="btn-media">
+                Instagram @spam_streaming
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN C: NOTAS EN PROFUNDIDAD + RADAR SPAM UPDATE -->
+    <section class="home-section" aria-label="Agenda temática y radar">
+      <div class="dual-content-grid">
+        
+        <!-- Bloque de notas temáticas -->
+        <div>
+          <div class="section-heading">
+            <h2 class="section-heading__title">Más notas e investigaciones</h2>
+            <a href="secciones/detras-de-lo-viral.html" class="section-heading__link">Explorar todas las notas &rarr;</a>
+          </div>
+
+          <div class="articles-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+            
+            <!-- Nota 1: Flores Amarillas -->
+            <article class="card-standard">
+              <div class="card-standard__media" style="aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius); background: #eee;">
+                <a href="notas/las-flores-amarillas.html">
+                  <img src="img/las-flores-amarillas.jpg" alt="Flores amarillas del 21 de septiembre" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </a>
+              </div>
+              <span class="category-badge">Detrás de lo viral</span>
+              <h3 class="card-standard__title">
+                <a href="notas/las-flores-amarillas.html">El impacto de las flores amarillas el 21-S: de Floricienta al fenómeno comercial</a>
+              </h3>
+              <p class="card-standard__excerpt">
+                Cómo una ficción juvenil de 2004 renació en TikTok dos décadas después y se transformó en un ritual masivo de primavera.
+              </p>
+              <div class="article-meta">
+                <span>Por <span class="article-meta__author">Delfina Galván</span></span>
+              </div>
+            </article>
+
+            <!-- Nota 2: Michael Jackson -->
+            <article class="card-standard">
+              <div class="card-standard__media" style="aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius); background: #eee;">
+                <a href="notas/michael-jackson.html">
+                  <img src="img/michael-jackson.jpg" alt="Michael Jackson y el mito que nunca muere" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </a>
+              </div>
+              <span class="category-badge">Lore Semanal</span>
+              <h3 class="card-standard__title">
+                <a href="notas/michael-jackson.html">Michael Jackson: entre el mito, los mensajes ocultos y las teorías que no mueren</a>
+              </h3>
+              <p class="card-standard__excerpt">
+                Mensajes secretos, especulaciones sobre su rostro y conspiraciones: ¿por qué resulta tan difícil separar al artista del misterio?
+              </p>
+              <div class="article-meta">
+                <span>Por <span class="article-meta__author">Valentina Colucci</span></span>
+              </div>
+            </article>
+
+            <!-- Nota 3: El fenómeno rosa -->
+            <article class="card-standard">
+              <div class="card-standard__media" style="aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius); background: #eee;">
+                <a href="notas/el-fenomeno-rosa.html">
+                  <img src="img/el-fenomeno-rosa.jpg" alt="Caminata Rosa en Rosario" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </a>
+              </div>
+              <span class="category-badge">Fuera de juego</span>
+              <h3 class="card-standard__title">
+                <a href="notas/el-fenomeno-rosa.html">El fenómeno rosa: la movilización que rompe tabúes y salva vidas en Rosario</a>
+              </h3>
+              <p class="card-standard__excerpt">
+                Más allá del impacto visual en redes sociales, la movida financia mamografías 100% gratuitas para mujeres vulnerables.
+              </p>
+              <div class="article-meta">
+                <span>Por <span class="article-meta__author">Aymará Pereyra</span></span>
+              </div>
+            </article>
+
+            <!-- Nota 4: El regreso del brillo -->
+            <article class="card-standard">
+              <div class="card-standard__media" style="aspect-ratio: 16/9; overflow: hidden; border-radius: var(--radius); background: #eee;">
+                <a href="notas/el-regreso-del-brillo.html">
+                  <img src="img/el-regreso-del-brillo.jpg" alt="Estética del brillo y bedazzling Y2K" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </a>
+              </div>
+              <span class="category-badge">Lore Semanal</span>
+              <h3 class="card-standard__title">
+                <a href="notas/el-regreso-del-brillo.html">El regreso del brillo: la moda de los 2000 que vuelve con el furor del bedazzling</a>
+              </h3>
+              <p class="card-standard__excerpt">
+                Cristales, strass y Juicy Couture: la estética maximalista del Y2K vuelve a imponerse en pasarelas, TikTok y las calles.
+              </p>
+              <div class="article-meta">
+                <span>Por <span class="article-meta__author">Pilar Teres</span></span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- Columna lateral: Música en SPAM (Spotify) -->
+        <aside aria-label="Música que escuchamos en SPAM">
+          
+          <!-- WIDGET: MÚSICA EN VIVO / SPOTIFY -->
+          <div class="spotify-widget">
+            <header class="spotify-widget__header">
+              <div class="spotify-widget__brand">
+                <!-- Isotipo oficial de Spotify SVG (tamaño chico) -->
+                <svg class="spotify-logo-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.498 17.306c-.217.356-.682.47-1.038.253-2.846-1.74-6.429-2.133-10.65-1.168-.407.094-.816-.16-.91-.567-.093-.408.16-.817.568-.91 4.622-1.055 8.572-.605 11.777 1.354.356.218.47.682.253 1.038zm1.467-3.264c-.274.444-.858.587-1.302.313-3.259-2.003-8.228-2.585-12.083-1.414-.498.151-1.03-.133-1.181-.631-.151-.498.133-1.03.631-1.181 4.407-1.338 9.877-.68 13.622 1.621.444.274.587.858.313 1.302zm.126-3.41c-3.908-2.321-10.347-2.535-14.077-1.402-.6.182-1.238-.16-1.42-.76-.182-.6.16-1.238.76-1.42 4.286-1.301 11.396-1.047 15.892 1.623.538.319.715 1.018.396 1.556-.319.539-1.018.715-1.556.396z"/>
+                </svg>
+                <h3 class="spotify-widget__title">Música en SPAM</h3>
+              </div>
+              <!-- Ondas de sonido animadas -->
+              <div class="sound-waves" title="Sonando en el estudio">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </header>
+
+            <!-- Tarjeta de tema sonando: Airbag -->
+            <div class="spotify-widget__card">
+              <div class="spotify-widget__cover" aria-hidden="true" title="Álbum Libertad - Airbag">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+                </svg>
+              </div>
+              <div class="spotify-widget__song-info">
+                <span class="spotify-widget__status">&#9654; Sonando ahora</span>
+                <p class="spotify-widget__song-name" title="Por Mil Noches">Por Mil Noches</p>
+                <p class="spotify-widget__artist">Airbag &bull; Álbum Libertad</p>
+              </div>
+            </div>
+
+            <!-- Reproductor embebido oficial de Spotify -->
+            <div class="spotify-widget__embed">
+              <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4jO3Vl53kYh4N5098gJ45u?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <!-- Botón directo para abrir en Spotify -->
+            <a href="https://open.spotify.com/track/4jO3Vl53kYh4N5098gJ45u" target="_blank" rel="noopener noreferrer" class="spotify-widget__btn">
+              <span>Escuchar en Spotify</span>
+            </a>
+          </div>
+
+        </aside>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 5. FOOTER CON IDENTIDAD Y MANIFIESTO -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-brand">
+          <img src="img/logo-spam.png" alt="SPAM" class="footer-brand__logo">
+          <p class="footer-brand__tagline">
+            <em>“Nosotros vamos a parar, mirar y entender qué hay detrás”</em>. Periodismo sobre cultura digital, tendencias y tecnología.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-col__title">Secciones</h3>
+          <ul class="footer-links">
+            <li><a href="secciones/detras-de-lo-viral.html">Detrás de lo viral</a></li>
+            <li><a href="secciones/lore-semanal.html">Lore semanal</a></li>
+            <li><a href="secciones/spam-update.html">Spam Update</a></li>
+            <li><a href="secciones/fuera-de-juego.html">Fuera de juego</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-col__title">Redacción</h3>
+          <ul class="footer-links">
+            <li><a href="quienes-somos.html">Quiénes somos</a></li>
+            <li><a href="quienes-somos.html#linea-editorial">Línea editorial</a></li>
+            <li><a href="https://www.youtube.com/@EstoesSpam" target="_blank" rel="noopener noreferrer">YouTube: @EstoesSpam</a></li>
+            <li><a href="https://www.instagram.com/spam_streaming" target="_blank" rel="noopener noreferrer">Instagram: @spam_streaming</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SPAM Streaming (@EstoesSpam). Todos los derechos reservados.</p>
+        <p>Construido con HTML semántico y CSS modular.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
