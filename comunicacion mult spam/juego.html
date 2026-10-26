@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de la Serpiente SPAM — EstoesSpam</title>
+  <meta name="description" content="Minijuego interactivo de la serpiente de EstoesSpam: controlá a la serpiente y comete las fotos del equipo y las portadas de las notas.">
+  <link rel="icon" type="image/png" href="img/logo-spam.png">
+  <link rel="apple-touch-icon" href="img/logo-spam.png">
+  <meta property="og:image" content="img/logo-spam.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Estilos específicos del Arcade / Minijuego */
+    .arcade-wrapper {
+      max-width: 720px;
+      margin: 0 auto 3rem auto;
+      text-align: center;
+    }
+
+    .arcade-card {
+      background: #111111;
+      border: 3px solid var(--color-yellow);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(255, 205, 0, 0.15);
+      color: #fff;
+    }
+
+    .arcade-scoreboard {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .arcade-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .arcade-stat__label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      color: var(--color-yellow);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .arcade-stat__value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .arcade-target-preview {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #242424;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 205, 0, 0.3);
+    }
+
+    .arcade-target-img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-yellow);
+    }
+
+    .arcade-canvas-container {
+      position: relative;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 1 / 1;
+      background: #0a0a0a;
+      border: 2px solid #333333;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
+    }
+
+    #snake-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
+
+    .arcade-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 10, 0.88);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 5;
+      transition: opacity 0.2s ease;
+    }
+
+    .arcade-overlay.is-hidden {
+      display: none;
+    }
+
+    .arcade-overlay h3 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--color-yellow);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .arcade-overlay p {
+      font-size: 0.95rem;
+      color: #dddddd;
+      margin-bottom: 1.25rem;
+      max-width: 320px;
+    }
+
+    .arcade-btn {
+      background: var(--color-yellow);
+      color: #111111;
+      font-weight: 900;
+      border: none;
+      padding: 12px 26px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 4px 14px rgba(255, 205, 0, 0.4);
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .arcade-btn:hover {
+      transform: scale(1.05);
+      background: #ffe04d;
+    }
+
+    .arcade-btn:active {
+      transform: scale(0.98);
+    }
+
+    .arcade-controls-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .arcade-btn-secondary {
+      background: #2a2a2a;
+      color: #fff;
+      font-weight: 800;
+      border: 1px solid #444;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .arcade-btn-secondary:hover {
+      background: #3a3a3a;
+      border-color: var(--color-yellow);
+    }
+
+    /* Mensaje de lo que comiste (Toast interactivo) */
+    .arcade-toast {
+      margin-top: 12px;
+      min-height: 28px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--color-yellow);
+      transition: opacity 0.3s ease;
+    }
+
+    /* D-PAD táctil para celular */
+    .arcade-dpad {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 56px);
+      grid-template-rows: repeat(3, 56px);
+      gap: 8px;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .dpad-btn {
+      background: #222222;
+      border: 2px solid #444;
+      border-radius: 12px;
+      color: #ffffff;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      transition: background 0.1s ease, border-color 0.1s ease;
+    }
+
+    .dpad-btn:active, .dpad-btn.is-pressed {
+      background: var(--color-yellow);
+      color: #111111;
+      border-color: var(--color-yellow);
+    }
+
+    .dpad-btn--up { grid-column: 2; grid-row: 1; }
+    .dpad-btn--left { grid-column: 1; grid-row: 2; }
+    .dpad-btn--right { grid-column: 3; grid-row: 2; }
+    .dpad-btn--down { grid-column: 2; grid-row: 3; }
+
+    .arcade-instructions {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+      border-top: 1px solid #282828;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. BARRA SUPERIOR DE SERVICIO -->
+  <aside class="top-bar" aria-label="Información de servicio">
+    <div class="container">
+      <div class="top-bar__tagline">
+        <span id="live-date">Edición digital</span> &bull; <em>“Parar, mirar y entender qué hay detrás”</em>
+      </div>
+      <div class="top-bar__networks">
+        <span>Canales oficiales:</span>
+        <a href="https://www.youtube.com/@EstoesSpam" target="_blank" rel="noopener noreferrer" class="top-bar__link">YouTube: @EstoesSpam</a>
+        <a href="https://www.instagram.com/spam_streaming" target="_blank" rel="noopener noreferrer" class="top-bar__link">Instagram: @spam_streaming</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 2. CABECERA -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="brand-wrapper">
+        <a href="index.html" aria-label="Volver a la portada de EstoesSpam">
+          <img src="img/logo-spam.png" alt="Logotipo de SPAM" class="brand-logo">
+        </a>
+      </div>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menú de navegación">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3. MENÚ DE NAVEGACIÓN -->
+  <nav class="main-nav" id="menu-principal" aria-label="Navegación principal">
+    <div class="container">
+      <ul class="main-nav__list">
+        <li class="main-nav__item"><a href="index.html" class="main-nav__link">Inicio</a></li>
+        <li class="main-nav__item"><a href="secciones/detras-de-lo-viral.html" class="main-nav__link">Detrás de lo viral</a></li>
+        <li class="main-nav__item"><a href="secciones/lore-semanal.html" class="main-nav__link">Lore semanal</a></li>
+        <li class="main-nav__item"><a href="secciones/spam-update.html" class="main-nav__link">Spam Update</a></li>
+        <li class="main-nav__item"><a href="secciones/fuera-de-juego.html" class="main-nav__link">Fuera de juego</a></li>
+        <li class="main-nav__item"><a href="quienes-somos.html" class="main-nav__link">Quiénes somos</a></li>
+        <li class="main-nav__item"><a href="juego.html" class="main-nav__link is-active" style="color: var(--color-yellow); font-weight: 800;">🎮 Juego SPAM</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 4. CONTENIDO DEL JUEGO -->
+  <main class="container home-section">
+    <div class="arcade-wrapper">
+      
+      <header style="margin-bottom: 1.5rem;">
+        <span class="category-badge category-badge--dark">SPAM Arcade // Minijuego Exclusivo</span>
+        <h1 style="font-size: 2.2rem; font-weight: 900; text-transform: uppercase; margin: 8px 0 6px;">La Serpiente de SPAM</h1>
+        <p style="color: var(--color-muted); font-size: 1rem; max-width: 580px; margin: 0 auto;">
+          Guía a la serpiente y atrapá a <strong>Valentina, Aymara, Pilar, Delfina, Agustín</strong> y a las portadas de nuestras notas. ¡Cada presa te hace crecer y suma puntos!
+        </p>
+      </header>
+
+      <div class="arcade-card">
+        
+        <!-- Marcador -->
+        <div class="arcade-scoreboard">
+          <div class="arcade-stat">
+            <span class="arcade-stat__label">Puntos</span>
+            <span id="score-display" class="arcade-stat__value">0</span>
+          </div>
+
+          <div class="arcade-stat">
+            <span class="arcade-stat__label">Récord</span>
+            <span id="highscore-display" class="arcade-stat__value">0</span>
+          </div>
+
+          <div class="arcade-stat">
+            <span class="arcade-stat__label">Comidos</span>
+            <span id="eaten-count-display" class="arcade-stat__value">0</span>
+          </div>
+
+          <!-- Miniatura del ítem actual -->
+          <div class="arcade-target-preview" title="Próxima presa a comer">
+            <img id="target-preview-img" src="img/valentina-colucci.jpeg" alt="Presa actual" class="arcade-target-img">
+            <span id="target-preview-name" style="font-size: 0.8rem; font-weight: 700; color: #fff;">Valentina</span>
+          </div>
+        </div>
+
+        <!-- Contenedor del Canvas del Juego -->
+        <div class="arcade-canvas-container" id="canvas-wrapper">
+          <canvas id="snake-canvas" width="400" height="400"></canvas>
+
+          <!-- Pantalla inicial / Game Over -->
+          <div id="game-overlay" class="arcade-overlay">
+            <h3 id="overlay-title">SPAM SNAKE</h3>
+            <p id="overlay-desc">¡Atrapá las fotos del equipo y las notas sin chocar contra las paredes ni tu propio cuerpo!</p>
+            <button id="start-btn" class="arcade-btn">🎮 Iniciar Juego</button>
+          </div>
+        </div>
+
+        <!-- Notificación de presa comida -->
+        <div id="arcade-toast" class="arcade-toast">¡Presioná Iniciar para jugar!</div>
+
+        <!-- Botones secundarios -->
+        <div class="arcade-controls-row">
+          <button id="pause-btn" class="arcade-btn-secondary">⏸ Pausar</button>
+          <button id="restart-btn" class="arcade-btn-secondary">🔄 Reiniciar</button>
+        </div>
+
+        <!-- D-PAD para celulares -->
+        <div class="arcade-dpad" aria-label="Controles táctiles de dirección">
+          <button id="dpad-up" class="dpad-btn dpad-btn--up" aria-label="Arriba">▲</button>
+          <button id="dpad-left" class="dpad-btn dpad-btn--left" aria-label="Izquierda">◀</button>
+          <button id="dpad-right" class="dpad-btn dpad-btn--right" aria-label="Derecha">▶</button>
+          <button id="dpad-down" class="dpad-btn dpad-btn--down" aria-label="Abajo">▼</button>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="arcade-instructions">
+          <p>
+            <strong>En computadora:</strong> Usá las <strong>Flechas del teclado</strong> o las teclas <strong>W, A, S, D</strong>. Con <strong>Espacio</strong> pausás.<br>
+            <strong>En celular:</strong> Usá los botones de dirección de arriba o <strong>deslizá tu dedo (swipe)</strong> sobre el tablero.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 5. FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 SPAM — Medio periodístico multimedial.</p>
+        <p><a href="index.html" style="color: var(--color-yellow);">&larr; Volver a la portada</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <!-- LÓGICA DEL JUEGO DE LA SERPIENTE -->
+  <script>
+    (function() {
+      // 1. Catálogo de presas: los 5 integrantes + las notas de SPAM y el nuevo Programa #11
+      const FOOD_ITEMS = [
+        { name: "Valentina Colucci", img: "img/valentina-colucci.jpeg", points: 15 },
+        { name: "Aymara Pereyra", img: "img/aymara-pereyra.jpeg", points: 15 },
+        { name: "Pilar Teres", img: "img/pilar-teres.jpeg", points: 15 },
+        { name: "Delfina Galván", img: "img/delfina-galvan.jpeg", points: 15 },
+        { name: "Agustín Sánchez", img: "img/agustin-sanchez.jpeg", points: 15 },
+        { name: "Programa #11 SPAM", img: "img/programa-11.jpg", points: 30 },
+        { name: "Cocardo y Frutinovelas", img: "img/cocardo-y-el-misterio-de-las-frutinovelas.jpg", points: 20 },
+        { name: "De Bandana a Emilia", img: "img/De-bandana-a-emilia.jpg", points: 20 },
+        { name: "Cargar iPhone por USB-C", img: "img/bateria-spam.jpg", points: 20 },
+        { name: "Esports Sudamericanos", img: "img/ESPORTS-spam.jpg", points: 20 },
+        { name: "Catacumbas de París", img: "img/paris-bajo-tierra.jpg", points: 20 },
+        { name: "La Reini y Redes", img: "img/cuando-la-obsesion-atraviesa-la-pantalla.jpg", points: 20 },
+        { name: "El Mate y Glifosato", img: "img/el-sabor-amargo-del-mate.jpg", points: 20 },
+        { name: "Videos virales con IA", img: "img/videos-virales-creados-con-ia.jpg", points: 20 },
+        { name: "Nota de Airbag", img: "img/como-airbag-desafio-los-prejuicios.jpg", points: 20 },
+        { name: "Nota del 11-S", img: "img/11-de-septiembre.jpg", points: 20 },
+        { name: "Mago IA Mercado Pago", img: "img/mago-ia-de-mercado-pago.jpg", points: 20 },
+        { name: "Flores Amarillas 21-S", img: "img/las-flores-amarillas.jpg", points: 20 },
+        { name: "Michael Jackson", img: "img/michael-jackson.jpg", points: 20 },
+        { name: "Caminata Rosa", img: "img/el-fenomeno-rosa.jpg", points: 20 },
+        { name: "El regreso del brillo", img: "img/el-regreso-del-brillo.jpg", points: 20 }
+      ];
+
+      // Pre-cargar imágenes para dibujo en Canvas
+      const preloadedImages = {};
+      FOOD_ITEMS.forEach(item => {
+        const img = new Image();
+        img.src = item.img;
+        preloadedImages[item.img] = img;
+      });
+
+      // 2. Elementos DOM
+      const canvas = document.getElementById("snake-canvas");
+      const ctx = canvas.getContext("2d");
+      const scoreDisplay = document.getElementById("score-display");
+      const highscoreDisplay = document.getElementById("highscore-display");
+      const eatenCountDisplay = document.getElementById("eaten-count-display");
+      const targetPreviewImg = document.getElementById("target-preview-img");
+      const targetPreviewName = document.getElementById("target-preview-name");
+      const gameOverlay = document.getElementById("game-overlay");
+      const overlayTitle = document.getElementById("overlay-title");
+      const overlayDesc = document.getElementById("overlay-desc");
+      const startBtn = document.getElementById("start-btn");
+      const pauseBtn = document.getElementById("pause-btn");
+      const restartBtn = document.getElementById("restart-btn");
+      const arcadeToast = document.getElementById("arcade-toast");
+
+      // 3. Constantes de grilla
+      const GRID_SIZE = 20; // 20x20 celdas
+      const CELL_SIZE = canvas.width / GRID_SIZE; // 20px por celda
+
+      // 4. Estado del juego
+      let snake = [];
+      let direction = { x: 1, y: 0 };
+      let nextDirection = { x: 1, y: 0 };
+      let food = { x: 15, y: 10, itemIndex: 0 };
+      let score = 0;
+      let eatenCount = 0;
+      let highScore = parseInt(localStorage.getItem("spam_snake_highscore") || "0", 10);
+      highscoreDisplay.textContent = highScore;
+
+      let isRunning = false;
+      let isPaused = false;
+      let gameInterval = null;
+      let baseSpeed = 120; // ms por tick
+
+      // Partículas al comer
+      let particles = [];
+
+      // Seleccionar una presa aleatoria
+      function pickRandomFoodItem() {
+        return Math.floor(Math.random() * FOOD_ITEMS.length);
+      }
+
+      // Colocar comida en celda libre
+      function spawnFood() {
+        let newX, newY;
+        let collision;
+        do {
+          newX = Math.floor(Math.random() * GRID_SIZE);
+          newY = Math.floor(Math.random() * GRID_SIZE);
+          collision = snake.some(seg => seg.x === newX && seg.y === newY);
+        } while (collision);
+
+        const itemIdx = pickRandomFoodItem();
+        food = { x: newX, y: newY, itemIndex: itemIdx };
+
+        // Actualizar vista previa
+        const curItem = FOOD_ITEMS[itemIdx];
+        targetPreviewImg.src = curItem.img;
+        targetPreviewName.textContent = curItem.name;
+      }
+
+      // Crear efecto de partículas al comer
+      function triggerEatEffect(cellX, cellY) {
+        const px = cellX * CELL_SIZE + CELL_SIZE / 2;
+        const py = cellY * CELL_SIZE + CELL_SIZE / 2;
+        for (let i = 0; i < 14; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = 1.5 + Math.random() * 3.5;
+          particles.push({
+            x: px,
+            y: py,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1.0,
+            color: Math.random() > 0.5 ? "#FFCD00" : "#ffffff",
+            size: 2 + Math.random() * 3
+          });
+        }
+      }
+
+      // Iniciar nueva partida
+      function resetGame() {
+        snake = [
+          { x: 5, y: 10 },
+          { x: 4, y: 10 },
+          { x: 3, y: 10 }
+        ];
+        direction = { x: 1, y: 0 };
+        nextDirection = { x: 1, y: 0 };
+        score = 0;
+        eatenCount = 0;
+        particles = [];
+        scoreDisplay.textContent = score;
+        eatenCountDisplay.textContent = eatenCount;
+        spawnFood();
+      }
+
+      function startGame() {
+        resetGame();
+        isRunning = true;
+        isPaused = false;
+        gameOverlay.classList.add("is-hidden");
+        pauseBtn.textContent = "⏸ Pausar";
+        arcadeToast.textContent = "¡Caza iniciada! ¡A comer!";
+
+        clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, baseSpeed);
+      }
+
+      function pauseGame() {
+        if (!isRunning) return;
+        isPaused = !isPaused;
+        if (isPaused) {
+          pauseBtn.textContent = "▶ Reanudar";
+          arcadeToast.textContent = "Juego en pausa";
+        } else {
+          pauseBtn.textContent = "⏸ Pausar";
+          arcadeToast.textContent = "¡En marcha!";
+        }
+      }
+
+      function gameOver() {
+        isRunning = false;
+        clearInterval(gameInterval);
+
+        if (score > highScore) {
+          highScore = score;
+          localStorage.setItem("spam_snake_highscore", highScore.toString());
+          highscoreDisplay.textContent = highScore;
+          overlayDesc.textContent = `¡NUEVO RÉCORD DE SPAM! Lograste ${score} puntos y te comiste ${eatenCount} fotos.`;
+        } else {
+          overlayDesc.textContent = `¡Fin de la partida! Puntos: ${score} | Atrapados: ${eatenCount}.`;
+        }
+
+        overlayTitle.textContent = "💥 ¡GAME OVER!";
+        startBtn.textContent = "🔄 Jugar de nuevo";
+        gameOverlay.classList.remove("is-hidden");
+        arcadeToast.textContent = "¡Chocaste! Volvé a intentarlo.";
+      }
+
+      // Bucle principal de actualización
+      function gameLoop() {
+        if (!isRunning || isPaused) return;
+
+        // Actualizar dirección
+        direction = { ...nextDirection };
+
+        // Nueva cabeza
+        const head = {
+          x: snake[0].x + direction.x,
+          y: snake[0].y + direction.y
+        };
+
+        // Colisión con paredes
+        if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE) {
+          gameOver();
+          return;
+        }
+
+        // Colisión consigo misma
+        if (snake.some(seg => seg.x === head.x && seg.y === head.y)) {
+          gameOver();
+          return;
+        }
+
+        // Mover serpiente
+        snake.unshift(head);
+
+        // Verificar si comió presa
+        if (head.x === food.x && head.y === food.y) {
+          const eatenItem = FOOD_ITEMS[food.itemIndex];
+          score += eatenItem.points;
+          eatenCount++;
+          scoreDisplay.textContent = score;
+          eatenCountDisplay.textContent = eatenCount;
+
+          triggerEatEffect(food.x, food.y);
+          arcadeToast.textContent = `✨ ¡Te comiste a ${eatenItem.name}! (+${eatenItem.points} pts)`;
+
+          spawnFood();
+
+          // Acelerar un poquito cada 3 ítems comidos
+          if (eatenCount % 3 === 0 && baseSpeed > 60) {
+            clearInterval(gameInterval);
+            const currentSpeed = Math.max(60, baseSpeed - Math.floor(eatenCount / 3) * 6);
+            gameInterval = setInterval(gameLoop, currentSpeed);
+          }
+        } else {
+          snake.pop(); // Si no comió, mantener longitud
+        }
+
+        draw();
+      }
+
+      // Dibujo en el Canvas
+      function draw() {
+        // 1. Fondo
+        ctx.fillStyle = "#0c0c0c";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Cuadrícula sutil
+        ctx.strokeStyle = "#161616";
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += CELL_SIZE) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += CELL_SIZE) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+          ctx.stroke();
+        }
+
+        // 2. Dibujar la presa (comida con la imagen circular)
+        const curItem = FOOD_ITEMS[food.itemIndex];
+        const cachedImg = preloadedImages[curItem.img];
+        const fx = food.x * CELL_SIZE;
+        const fy = food.y * CELL_SIZE;
+        const radius = CELL_SIZE / 2;
+
+        ctx.save();
+        // Resplandor amarillo
+        ctx.shadowColor = "#FFCD00";
+        ctx.shadowBlur = 10;
+
+        ctx.beginPath();
+        ctx.arc(fx + radius, fy + radius, radius - 1, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = "#FFCD00";
+        ctx.fill();
+
+        // Recorte circular para la imagen
+        ctx.clip();
+        if (cachedImg && cachedImg.complete && cachedImg.naturalWidth > 0) {
+          ctx.drawImage(cachedImg, fx, fy, CELL_SIZE, CELL_SIZE);
+        } else {
+          ctx.fillStyle = "#FFCD00";
+          ctx.fillRect(fx, fy, CELL_SIZE, CELL_SIZE);
+        }
+        ctx.restore();
+
+        // Borde dorado a la presa
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(fx + radius, fy + radius, radius - 1, 0, Math.PI * 2);
+        ctx.strokeStyle = "#FFCD00";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+
+        // 3. Dibujar la serpiente
+        snake.forEach((seg, i) => {
+          const sx = seg.x * CELL_SIZE;
+          const sy = seg.y * CELL_SIZE;
+
+          if (i === 0) {
+            // Cabeza
+            ctx.save();
+            ctx.fillStyle = "#FFCD00";
+            ctx.shadowColor = "#FFCD00";
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            ctx.roundRect(sx + 1, sy + 1, CELL_SIZE - 2, CELL_SIZE - 2, 6);
+            ctx.fill();
+            ctx.restore();
+
+            // Ojos de la serpiente
+            ctx.fillStyle = "#111111";
+            let eyeX1 = sx + 5, eyeY1 = sy + 5, eyeX2 = sx + 13, eyeY2 = sy + 5;
+            if (direction.x === 1) { // Derecha
+              eyeX1 = sx + 13; eyeY1 = sy + 5; eyeX2 = sx + 13; eyeY2 = sy + 13;
+            } else if (direction.x === -1) { // Izquierda
+              eyeX1 = sx + 5; eyeY1 = sy + 5; eyeX2 = sx + 5; eyeY2 = sy + 13;
+            } else if (direction.y === 1) { // Abajo
+              eyeX1 = sx + 5; eyeY1 = sy + 13; eyeX2 = sx + 13; eyeY2 = sy + 13;
+            }
+            ctx.beginPath();
+            ctx.arc(eyeX1, eyeY1, 2, 0, Math.PI * 2);
+            ctx.arc(eyeX2, eyeY2, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+          } else {
+            // Cuerpo
+            ctx.fillStyle = i % 2 === 0 ? "#FFCD00" : "#e6b800";
+            ctx.beginPath();
+            ctx.roundRect(sx + 2, sy + 2, CELL_SIZE - 4, CELL_SIZE - 4, 4);
+            ctx.fill();
+          }
+        });
+
+        // 4. Dibujar partículas al comer
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life -= 0.04;
+
+          if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.globalAlpha = p.life;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      // 5. Manejo de controles
+      function handleDirectionChange(newDir) {
+        if (!isRunning) return;
+        // Evitar giro 180° instantáneo sobre sí misma
+        if (newDir.x !== 0 && direction.x !== 0) return;
+        if (newDir.y !== 0 && direction.y !== 0) return;
+        nextDirection = newDir;
+      }
+
+      // Teclado
+      window.addEventListener("keydown", (e) => {
+        switch (e.key) {
+          case "ArrowUp":
+          case "w":
+          case "W":
+            handleDirectionChange({ x: 0, y: -1 });
+            e.preventDefault();
+            break;
+          case "ArrowDown":
+          case "s":
+          case "S":
+            handleDirectionChange({ x: 0, y: 1 });
+            e.preventDefault();
+            break;
+          case "ArrowLeft":
+          case "a":
+          case "A":
+            handleDirectionChange({ x: -1, y: 0 });
+            e.preventDefault();
+            break;
+          case "ArrowRight":
+          case "d":
+          case "D":
+            handleDirectionChange({ x: 1, y: 0 });
+            e.preventDefault();
+            break;
+          case " ":
+            pauseGame();
+            e.preventDefault();
+            break;
+        }
+      });
+
+      // Botones de D-PAD táctiles
+      document.getElementById("dpad-up").addEventListener("click", () => handleDirectionChange({ x: 0, y: -1 }));
+      document.getElementById("dpad-down").addEventListener("click", () => handleDirectionChange({ x: 0, y: 1 }));
+      document.getElementById("dpad-left").addEventListener("click", () => handleDirectionChange({ x: -1, y: 0 }));
+      document.getElementById("dpad-right").addEventListener("click", () => handleDirectionChange({ x: 1, y: 0 }));
+
+      // Soporte Swipe táctil directo sobre el canvas
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      canvas.addEventListener("touchstart", (e) => {
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      canvas.addEventListener("touchend", (e) => {
+        if (!isRunning) return;
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
+
+        if (Math.abs(dx) < 20 && Math.abs(dy) < 20) return; // Toque leve
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+          // Horizontal
+          if (dx > 0) handleDirectionChange({ x: 1, y: 0 });
+          else handleDirectionChange({ x: -1, y: 0 });
+        } else {
+          // Vertical
+          if (dy > 0) handleDirectionChange({ x: 0, y: 1 });
+          else handleDirectionChange({ x: 0, y: -1 });
+        }
+      }, { passive: true });
+
+      // Botones de acción
+      startBtn.addEventListener("click", startGame);
+      pauseBtn.addEventListener("click", pauseGame);
+      restartBtn.addEventListener("click", startGame);
+
+      // Dibujar pantalla estática inicial
+      resetGame();
+      draw();
+    })();
+  </script>
+</body>
+</html>
